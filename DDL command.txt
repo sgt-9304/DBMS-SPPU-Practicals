@@ -1,0 +1,233 @@
+mysql> CREATE DATABASE Company;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use company;
+Database changed
+
+mysql> create table salesman(
+    -> s_id int(3),
+    -> s_name varchar(10),
+    -> s_addr char(20),
+    -> date_of_joining DATE,
+    -> salary decimal(9,2),
+    -> c_id int(5),
+    -> c_name varchar(20),
+    -> product_name varchar(20)
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into salesman values(100,'ram','ayodhya','2011-09-22',20000,1001,'open ai','chatgpt');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into salesman values(101,'sita','nepal','2015-11-11',30000,1002,'tata','ar');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into salesman values(102,'krishna','vrindavan','2020-02-15',40000,1003,'adani','solar');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into salesman values(103,'radha','mathura','2022-12-12',50000,1004,'reliance','jio');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into salesman values(104,'ganesh','pune','2004-03-09',70000,1005,'wipro','bsnl');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from salesman;
++------+---------+-----------+-----------------+----------+------+----------+--------------+
+| s_id | s_name  | s_addr    | date_of_joining | salary   | c_id | c_name   | product_name |
++------+---------+-----------+-----------------+----------+------+----------+--------------+
+|  100 | ram     | ayodhya   | 2011-09-22      | 20000.00 | 1001 | open ai  | chatgpt      |
+|  101 | sita    | nalanda   | 2015-11-11      | 30000.00 | 1002 | tata     | ar           |
+|  102 | krishna | vrindavan | 2020-02-15      | 40000.00 | 1003 | adani    | solar        |
+|  103 | radha   | mathura   | 2022-12-12      | 50000.00 | 1004 | reliance | jio          |
+|  104 | ganesh  | pune      | 2004-03-09      | 70000.00 | 1005 | wipro    | bsnl         |
++------+---------+-----------+-----------------+----------+------+----------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> update salesman set s_addr='nalanda' where s_id=102 or s_id=103;
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+
+mysql> select * from salesman;
++------+---------+---------+-----------------+----------+------+----------+--------------+
+| s_id | s_name  | s_addr  | date_of_joining | salary   | c_id | c_name   | product_name |
++------+---------+---------+-----------------+----------+------+----------+--------------+
+|  100 | ram     | ayodhya | 2011-09-22      | 20000.00 | 1001 | open ai  | chatgpt      |
+|  101 | sita    | nepal   | 2015-11-11      | 30000.00 | 1002 | tata     | ar           |
+|  102 | krishna | nalanda | 2020-02-15      | 40000.00 | 1003 | adani    | solar        |
+|  103 | radha   | nalanda | 2022-12-12      | 50000.00 | 1004 | reliance | jio          |
+|  104 | ganesh  | pune    | 2004-03-09      | 70000.00 | 1005 | wipro    | bsnl         |
++------+---------+---------+-----------------+----------+------+----------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE salesman ADD PRIMARY KEY(s_id);
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE salesman MODIFY s_addr VARCHAR(20);
+Query OK, 5 rows affected (0.03 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> Alter table salesman add constraint Uk_name UNIQUE(s_name);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc salesman;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| s_id            | int(3)       | NO   | PRI | 0       |       |
+| s_name          | varchar(10)  | YES  | UNI | NULL    |       |
+| s_addr          | varchar(20)  | YES  |     | NULL    |       |
+| date_of_joining | date         | YES  |     | NULL    |       |
+| salary          | decimal(9,2) | YES  |     | NULL    |       |
+| c_id            | int(5)       | YES  |     | NULL    |       |
+| c_name          | varchar(20)  | YES  |     | NULL    |       |
+| product_name    | varchar(20)  | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+8 rows in set (0.03 sec)
+
+mysql> delete from salesman where c_id=1005;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from salesman;
++------+---------+---------+-----------------+----------+------+----------+--------------+
+| s_id | s_name  | s_addr  | date_of_joining | salary   | c_id | c_name   | product_name |
++------+---------+---------+-----------------+----------+------+----------+--------------+
+|  100 | ram     | ayodhya | 2011-09-22      | 20000.00 | 1001 | open ai  | chatgpt      |
+|  101 | sita    | nepal   | 2015-11-11      | 30000.00 | 1002 | tata     | ar           |
+|  102 | krishna | nalanda | 2020-02-15      | 40000.00 | 1003 | adani    | solar        |
+|  103 | radha   | nalanda | 2022-12-12      | 50000.00 | 1004 | reliance | jio          |
++------+---------+---------+-----------------+----------+------+----------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> alter table salesman add age int(3);
+Query OK, 4 rows affected (0.03 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman;
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+| s_id | s_name  | s_addr  | date_of_joining | salary   | c_id | c_name   | product_name | age  |
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+|  100 | ram     | ayodhya | 2011-09-22      | 20000.00 | 1001 | open ai  | chatgpt      | NULL |
+|  101 | sita    | nepal   | 2015-11-11      | 30000.00 | 1002 | tata     | ar           | NULL |
+|  102 | krishna | nalanda | 2020-02-15      | 40000.00 | 1003 | adani    | solar        | NULL |
+|  103 | radha   | nalanda | 2022-12-12      | 50000.00 | 1004 | reliance | jio          | NULL |
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+4 rows in set (0.00 sec)
+
+mysql> alter table salesman add constraint chk_age CHECK (age>=18);
+Query OK, 0 rows affected (0.00 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from salesman;
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+| s_id | s_name  | s_addr  | date_of_joining | salary   | c_id | c_name   | product_name | age  |
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+|  100 | ram     | ayodhya | 2011-09-22      | 20000.00 | 1001 | open ai  | chatgpt      | NULL |
+|  101 | sita    | nepal   | 2015-11-11      | 30000.00 | 1002 | tata     | ar           | NULL |
+|  102 | krishna | nalanda | 2020-02-15      | 40000.00 | 1003 | adani    | solar        | NULL |
+|  103 | radha   | nalanda | 2022-12-12      | 50000.00 | 1004 | reliance | jio          | NULL |
++------+---------+---------+-----------------+----------+------+----------+--------------+------+
+4 rows in set (0.00 sec)
+
+mysql> create index idx_name on salesman(s_name);
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table salesman
+    -> modify column s_id int not null,
+    -> modify column salary decimal(10,2) not null,
+    -> modify column date_of_joining DATE not null,
+    -> modify column s_name varchar (25) not null;
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> create view s_view as select s_id,s_name,salary from salesman;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from s_view;
++------+---------+----------+
+| s_id | s_name  | salary   |
++------+---------+----------+
+|  100 | ram     | 20000.00 |
+|  101 | sita    | 30000.00 |
+|  102 | krishna | 40000.00 |
+|  103 | radha   | 50000.00 |
++------+---------+----------+
+4 rows in set (0.00 sec)
+
+mysql> delete from s_view where s_id=101;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select sum(salary) as total_salary from salesman;
++--------------+
+| total_salary |
++--------------+
+|    110000.00 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) as avg_salary from salesman;
++--------------+
+| avg_salary   |
++--------------+
+| 36666.666667 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) as min_salary from salesman;
++------------+
+| min_salary |
++------------+
+|   20000.00 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) as max_salary from salesman;
++------------+
+| max_salary |
++------------+
+|   50000.00 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select count(salary) as count_rows from salesman;
++------------+
+| count_rows |
++------------+
+|          3 |
++------------+
+1 row in set (0.00 sec)
+
+mysql> create table test1(id int(3),name varchar(10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table test2(id int(3),name varchar(10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into test1 values(1,'ram'),(2,'lakshman'),(3,'sita');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> insert into test2 values(1,'ram'),(2,'lakshman'),(3,'sita'),(4,'krishna'),(5,'radha');
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from test1 UNION select * from test2;
++------+----------+
+| id   | name     |
++------+----------+
+|    1 | ram      |
+|    2 | lakshman |
+|    3 | sita     |
+|    4 | krishna  |
+|    5 | radha    |
++------+----------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE FROM salesman;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> DROP TABLE salesman;
+Query OK, 0 rows affected (0.02 sec)
