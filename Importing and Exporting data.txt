@@ -1,0 +1,55 @@
+mysql> create database assgn5;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use assgn5;
+Database changed
+
+mysql> create table emp(
+    -> Emp_id int(3) primary key,
+    -> Emp_name varchar(10),
+    -> Emp_salary int(5));
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+mysql> desc emp;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| Emp_id     | int         | NO   | PRI | NULL    |       |
+| Emp_name   | varchar(10) | YES  |     | NULL    |       |
+| Emp_salary | int         | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+3 rows in set (0.03 sec)
+
+-----------------------------------------------///IMPORT DATA//--------------------------------------------------------------------------
+
+mysql> load data infile "C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\employee.csv"
+    -> into table emp
+    -> fields terminated by ','
+    -> optionally enclosed by '"'
+    -> lines terminated by '\n'
+    -> ignore 1 rows;
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> select * from emp;
++--------+----------+------------+
+| Emp_id | Emp_name | Emp_salary |
++--------+----------+------------+
+|    100 | ramesh   |      10000 |
+|    101 | suresh   |      15000 |
+|    102 | riya     |      20000 |
+|    103 | siya     |      25000 |
++--------+----------+------------+
+4 rows in set (0.00 sec)
+
+----------------------------------------------------/// EXPORT DATA//-----------------------------------------------------------------------------------
+
+mysql> select * from emp
+    -> into outfile "C:\\ProgramData\\MySQL\\MySQL Server 8.0\\Uploads\\employee_backup.csv"
+    -> fields terminated by ','
+    -> optionally enclosed by '"'
+    -> lines terminated by '\r\n';
+Query OK, 4 rows affected (0.00 sec)
+
+
+---Go in file of uploads there backup file is being formed !!-----------------------------
