@@ -1,0 +1,120 @@
+mysql>create database assgn3;
+Database Created
+
+mysql> use assgn3;
+Database changed
+
+mysql> create table borrow(
+    -> roll_no int(3),
+    -> name varchar(20),
+    -> date_of_issue DATE,
+    -> name_of_book varchar(20),
+    -> status char(1));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table fine(
+    -> roll_no int(3),
+    -> today DATE,
+    -> AMT DECIMAL(4,2));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>  insert into borrow values(101,'luv','2017-12-27','chanakaya','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql>  insert into borrow values(102,'kush','2020-02-07','The savarkar story','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql>
+mysql>  insert into borrow values(103,'radha','2023-09-04','subash chandra bose','I');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from borrow;
++---------+-------+---------------+---------------------+--------+
+| roll_no | name  | date_of_issue | name_of_book        | status |
++---------+-------+---------------+---------------------+--------+
+|     101 | luv   | 2017-12-27    | chanakaya           | I      |
+|     102 | kush  | 2020-02-07    | The savarkar story  | I      |
+|     103 | radha | 2023-09-04    | subash chandra bose | I      |
++---------+-------+---------------+---------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql> CREATE PROCEDURE returnbook(IN PRoll_No INT)
+    ->     BEGIN
+    ->      DECLARE fine_amt INT;
+    ->      DECLARE no_of_days INT;
+    ->      DECLARE issuedate DATE;
+    ->     SELECT Date_of_Issue
+    ->    INTO  issuedate
+    ->     from borrow
+    ->      WHERE
+    ->     Roll_no = PRoll_No;
+    ->
+    ->     SET  no_of_days = DATEIFF(CURRENT_DATE(),issuedate);
+    ->
+    ->      if  no_of_days <15 THEN
+    ->         SET fine_amt = 0;
+    ->     elseif  no_of_days>=15 and no_of_days <=30 THEN
+    ->        SET fine_amt=5;
+    ->      else
+    ->      set fine_amt=50;
+    ->      END IF;
+    ->
+    ->      insert into fine(roll_no ,today,amt)values(PRoll_No,current_date(),fine_amt);
+    ->      update borrow set status ='R'where Roll_no = PRoll_no;
+    ->
+    ->      END $$
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> select * from borrow;
++---------+-------+---------------+---------------------+--------+
+| roll_no | name  | date_of_issue | name_of_book        | status |
++---------+-------+---------------+---------------------+--------+
+|     101 | luv   | 2017-12-27    | chanakaya           | R      |
+|     102 | kush  | 2020-02-07    | The savarkar story  | R      |
+|     103 | radha | 2023-09-04    | subash chandra bose | R      |
++---------+-------+---------------+---------------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> call rtnbk (101);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> call rtnbk (102);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> call rtnbk (103);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>select * from fine;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
