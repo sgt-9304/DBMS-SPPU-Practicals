@@ -1,0 +1,57 @@
+db.employee.insertOne({name:"shyam",age:20,salary:700000})
+
+db.employee.insertMany([{name:"Ram",age:20,salary:500000},{name:"Radha",age:19,salary:500000},{name:"sita",age:20,salary:700000}])
+
+db.employee.find({name:"Ram"})
+
+db.employee.find({age:20})
+
+
+db.employee.updateOne({name:'Radha'},{$set:{salary:600000}})
+
+
+db.employee.aggregate([{$sort: {age: -1}}])
+
+ 
+
+
+db.employee.aggregate([{$group: {_id: null,totalSalary: {$sum: "$salary"}}}])
+
+
+db.employee.aggregate([{$group: {_id: null,avgSalary: {$avg: "$salary"}}}])
+
+
+db.employee.deleteOne({name: "sita"})
+
+
+db.employee.find({age:{$gt: 19}})
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+MONGODB ASSIGNMENT  COMMANDS :------
+
+
+CREATE DATABASE THEN WRITE :
+
+1) use database_name
+
+2) db.createcollection( 'table_name')
+
+3)db.insertOne([{name:_,id:_,.......}]);
+
+4) db.insertMany([{name:_,id:_,...},{name:_,id:_}]);
+
+5) db.table_name.find()
+
+6)db.t_name.find({name:'_'})
+
+7)db.table_name.updateOne({name:'_'},{$set:{id:_}})
+
+8)db.table_name.aggregate([{$sort:{age: -1}}])----------------------------------descending order may sort krega
+
+9)db.table_name.deleteOne({name:'_'});
+
+10)db.table_name.deleteMany({name:'_'},{name:'_'})
+
+11)db.t_name.aggregate([{$group:{_id:null,avgsalary:{$avg:"$salary"}}}]);
+
