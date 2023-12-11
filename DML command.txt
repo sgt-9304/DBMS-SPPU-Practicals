@@ -1,0 +1,254 @@
+2mysql> create database assignment2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use assignment2;
+Database changed
+mysql> create table c_mstr(
+    -> cust_no int(10) primary key,
+    -> f_name varchar(20) not null,
+    -> l_name varchar(30) not null
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into c_mstr values(100,'ram','lohia'),(101,'seema','shukla'),(102,'akash','merchant');
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from c_mstr;
++---------+--------+----------+
+| cust_no | f_name | l_name   |
++---------+--------+----------+
+|     100 | ram    | lohia    |
+|     101 | seema  | shukla   |
+|     102 | akash  | merchant |
++---------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> create table add_dets(
+    -> add1 varchar(20) not null,
+    -> add2 varchar(20) not null,
+    -> state varchar(20) not null,
+    -> city varchar(20) not null,
+    -> pincode int not null,
+    -> cust_no int(10) not null,
+    -> CONSTRAINT fk_cust foreign key(cust_no) REFERENCES c_mstr(cust_no));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into add_dets values('jm road','sadashiv peth','maharashtra','pune',413232,100),('gajanana road','fc colony','mp','indore',234567,101),('ram mandir','krishna nagar','gujarat','surat',711005,102);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from add_dets;
++---------------+---------------+-------------+--------+---------+---------+
+| add1          | add2          | state       | city   | pincode | cust_no |
++---------------+---------------+-------------+--------+---------+---------+
+| jm road       | sadashiv peth | maharashtra | pune   |  413232 |     100 |
+| gajanana road | fc colony     | mp          | indore |  234567 |     101 |
+| ram mandir    | krishna nagar | gujarat     | surat  |  711005 |     102 |
++---------------+---------------+-------------+--------+---------+---------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT add1,add2,state,city,pincode FROM add_dets WHERE cust_no = (SELECT cust_no FROM c_mstr WHERE f_name = 'ram' AND l_name = 'lohia');
++---------+---------------+-------------+------+---------+
+| add1    | add2          | state       | city | pincode |
++---------+---------------+-------------+------+---------+
+| jm road | sadashiv peth | maharashtra | pune |  413232 |
++---------+---------------+-------------+------+---------+
+1 row in set (0.00 sec)
+
+Q.2-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> create table e_mstr(
+    -> emp_no int(10) primary key,
+    -> f_name varchar(20) not null,
+    -> m_name varchar(30) not null,
+    -> l_name varchar(20) not null,
+    -> dept varchar(20) not null
+    -> );
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table b_mstr(
+    -> branch_name varchar(20) not null,
+    -> branch_no varchar(20) not null,
+    -> emp_no int(10) not null,
+    -> CONSTRAINT Fk_emp FOREIGN KEY(emp_no) REFERENCES e_mstr(emp_no));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into e_mstr values(100,'ram','manohar','lohia','data scientist'),(101,'krishan','giridar','giri','finance'),(102,'ashish','shyam','girme','digital marketing'),(103,'tejas','hira','morge','software'),(104,'pushkar','ravindra','pund','social media');
+
+mysql> select * from e_mstr;
++--------+---------+----------+--------+-------------------+
+| emp_no | f_name  | m_name   | l_name | dept              |
++--------+---------+----------+--------+-------------------+
+|    100 | ram     | manohar  | lohia  | data scientist    |
+|    101 | krishan | giridar  | giri   | finance           |
+|    102 | ashish  | shyam    | girme  | digital marketing |
+|    103 | tejas   | hira     | morge  | software          |
+|    104 | pushkar | ravindra | pund   | social media      |
++--------+---------+----------+--------+-------------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into b_mstr values('data scientist',1001,101),('finance',1002,102),('digital marketing',1003,103),('software',1004,104);
+
+mysql> select * from b_mstr;
++-------------------+-----------+--------+
+| branch_name       | branch_no | emp_no |
++-------------------+-----------+--------+
+| data scientist    | 1001      |    101 |
+| finance           | 1002      |    102 |
+| digital marketing | 1003      |    103 |
+| software          | 1004      |    104 |
++-------------------+-----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT e_mstr.emp_no, e_mstr.f_name, e_mstr.m_name, e_mstr.l_name, b_mstr.branch_name FROM e_mstr INNER JOIN b_mstr ON e_mstr.emp_no = b_mstr.emp_no;
++--------+---------+----------+--------+-------------------+
+| emp_no | f_name  | m_name   | l_name | branch_name       |
++--------+---------+----------+--------+-------------------+
+|    101 | krishan | giridar  | giri   | data scientist    |
+|    102 | ashish  | shyam    | girme  | finance           |
+|    103 | tejas   | hira     | morge  | digital marketing |
+|    104 | pushkar | ravindra | pund   | software          |
++--------+---------+----------+--------+-------------------+
+4 rows in set (0.00 sec)
+
+
+Q.3-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> use assignment2;
+Database changed
+mysql> create table teacher(
+    -> t_id int(5),
+    -> t_name varchar(10),
+    -> t_add varchar(20),
+    -> t_subject varchar(20),
+    -> t_salary decimal(8,2),
+    -> s_id int(5),
+    -> s_name varchar(20),
+    -> s_add varchar(20),
+    -> s_marks decimal(4,2));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into teacher values(101,'prajakta','kashmir','physics','300000',41,'tejas','shrirampur',90);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into teacher values(102,'sakshi','gujarat','mechanics','400000',77,'giridar','assam',86);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into teacher values(103,'divya','pune','oops','500000',2,'krishna','manipur',80);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into teacher values(104,'snehalata','gilgit','os','700000',80,'seema','uk',70);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> create view student as select s_id,s_name,s_add,s_marks from teacher;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into student values(40,'ram','ayodhya',50);
+Query OK, 1 row affected (0.00 sec)
+
+
+mysql> select * from student;
++------+---------+------------+---------+
+| s_id | s_name  | s_add      | s_marks |
++------+---------+------------+---------+
+|   41 | tejas   | shrirampur |   90.00 |
+|   77 | giridar | assam      |   86.00 |
+|    2 | krishna | manipur    |   80.00 |
+|   80 | seema   | uk         |   70.00 |
+|   40 | ram     | ayodhya    |   50.00 |
++------+---------+------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from teacher;
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+| t_id | t_name    | t_add   | t_subject | t_salary  | s_id | s_name  | s_add      | s_marks |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+|  101 | prajakta  | kashmir | physics   | 300000.00 |   41 | tejas   | shrirampur |   90.00 |
+|  102 | sakshi    | gujarat | mechanics | 400000.00 |   77 | giridar | assam      |   86.00 |
+|  103 | divya     | pune    | oops      | 500000.00 |    2 | krishna | manipur    |   80.00 |
+|  104 | snehalata | gilgit  | os        | 700000.00 |   80 | seema   | uk         |   70.00 |
+| NULL | NULL      | NULL    | NULL      |      NULL |   40 | ram     | ayodhya    |   50.00 |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+5 rows in set (0.00 sec)
+
+mysql> delete from student where s_id=40;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from student;
++------+---------+------------+---------+
+| s_id | s_name  | s_add      | s_marks |
++------+---------+------------+---------+
+|   41 | tejas   | shrirampur |   90.00 |
+|   77 | giridar | assam      |   86.00 |
+|    2 | krishna | manipur    |   80.00 |
+|   80 | seema   | uk         |   70.00 |
++------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from teacher;
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+| t_id | t_name    | t_add   | t_subject | t_salary  | s_id | s_name  | s_add      | s_marks |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+|  101 | prajakta  | kashmir | physics   | 300000.00 |   41 | tejas   | shrirampur |   90.00 |
+|  102 | sakshi    | gujarat | mechanics | 400000.00 |   77 | giridar | assam      |   86.00 |
+|  103 | divya     | pune    | oops      | 500000.00 |    2 | krishna | tamil nadu |   80.00 |
+|  104 | snehalata | gilgit  | os        | 700000.00 |   80 | seema   | tamil nadu |   75.00 |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> update student set s_marks=75 where s_id=80;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from student;
++------+---------+------------+---------+
+| s_id | s_name  | s_add      | s_marks |
++------+---------+------------+---------+
+|   41 | tejas   | shrirampur |   90.00 |
+|   77 | giridar | assam      |   86.00 |
+|    2 | krishna | manipur    |   80.00 |
+|   80 | seema   | uk         |   75.00 |
++------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from teacher;
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+| t_id | t_name    | t_add   | t_subject | t_salary  | s_id | s_name  | s_add      | s_marks |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+|  101 | prajakta  | kashmir | physics   | 300000.00 |   41 | tejas   | shrirampur |   90.00 |
+|  102 | sakshi    | gujarat | mechanics | 400000.00 |   77 | giridar | assam      |   86.00 |
+|  103 | divya     | pune    | oops      | 500000.00 |    2 | krishna | manipur    |   80.00 |
+|  104 | snehalata | gilgit  | os        | 700000.00 |   80 | seema   | uk         |   75.00 |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+
+mysql> update student set s_add='tamil nadu'where s_id in(2,80);
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from student;
++------+---------+------------+---------+
+| s_id | s_name  | s_add      | s_marks |
++------+---------+------------+---------+
+|   41 | tejas   | shrirampur |   90.00 |
+|   77 | giridar | assam      |   86.00 |
+|    2 | krishna | tamil nadu |   80.00 |
+|   80 | seema   | tamil nadu |   75.00 |
++------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> select * from teacher;
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+| t_id | t_name    | t_add   | t_subject | t_salary  | s_id | s_name  | s_add      | s_marks |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+|  101 | prajakta  | kashmir | physics   | 300000.00 |   41 | tejas   | shrirampur |   90.00 |
+|  102 | sakshi    | gujarat | mechanics | 400000.00 |   77 | giridar | assam      |   86.00 |
+|  103 | divya     | pune    | oops      | 500000.00 |    2 | krishna | tamil nadu |   80.00 |
+|  104 | snehalata | gilgit  | os        | 700000.00 |   80 | seema   | tamil nadu |   75.00 |
++------+-----------+---------+-----------+-----------+------+---------+------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> drop view student;
+Query OK, 0 rows affected (0.00 sec)
