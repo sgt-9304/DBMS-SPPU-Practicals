@@ -1,0 +1,51 @@
+import mysql.connector as c
+con=c.connect(host='localhost',user='root',passwd='sgt55',database='connectt')
+cursor=con.cursor()
+
+while(1):
+    
+    a=int(input("Enter |1.insert data|2.update data|3.retrieve data|4.delete data|5.Exit\n"))
+    
+    if(a==1):
+        id=int(input("enter id :"))
+        name=input("enter name:")
+        age=int(input("enter age:"))
+        insert_query="insert into student(id,name,age)values({},'{}',{})".format(id,name,age)
+        cursor.execute(insert_query)
+        con.commit()
+        print("DATA IS INSERTED SUCCESSFULLY")
+        
+    elif(a==2):
+        id=int(input("enter id :"))
+        age=int(input("enter age:"))
+        update_query="update student set age={} where id={}".format(age,id)
+        cursor.execute(update_query)
+        con.commit()
+        print("DATA IS UPDATED SUCCESSFULLY")
+            
+    elif(a==3):
+        print("data is uploaded")
+        print()
+        print("id            name               age")
+        print()
+        
+        select_query="select * from student"
+        cursor.execute(select_query)
+        result=cursor.fetchall()
+        
+        
+        for i in result:
+            print(i[0],'\t\t',i[1],'\t\t',i[2],'\t\t')
+            print()
+            con.commit()
+            
+    elif(a==4):
+        id=int(input("enter id :"))
+        delete_query="delete from student where id={}".format(id)
+        cursor.execute(delete_query)
+        con.commit()
+        print("DATA IS DELETED SUCCESSFULLY")
+        
+    else:
+        break
+        
